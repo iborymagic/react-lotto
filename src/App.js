@@ -1,7 +1,8 @@
 import React from 'react';
-import MoneyInput from './components/money-input/index';
+import MoneyInput from './components/money-input';
 import PurchaseNumberList from './components/purchase-number-list';
 import WinningNumber from './components/winning-number';
+import { LOTTERY_PRICE } from './constants/number';
 
 class App extends React.Component {
   constructor(props) {
@@ -9,22 +10,25 @@ class App extends React.Component {
     this.state = {
       isMoneyInputValid: false,
       isModalOpen: false,
+      moneyAmount: 0,
     };
   }
 
-  handleSubmit() {
+  handleSubmit(money) {
     this.setState({
       isMoneyInputValid: true,
+      moneyAmount: money,
     });
   }
 
   render() {
+    const ticketCount = Math.floor(this.state.moneyAmount / LOTTERY_PRICE);
     return (
       <>
-        <MoneyInput handleSubmit={() => this.handleSubmit()}></MoneyInput>
+        <MoneyInput onHandleSubmit={(money) => this.handleSubmit(money)}></MoneyInput>
         {this.state.isMoneyInputValid && (
           <>
-            <PurchaseNumberList></PurchaseNumberList>
+            <PurchaseNumberList ticketCount={ticketCount}></PurchaseNumberList>
             <WinningNumber></WinningNumber>
           </>
         )}

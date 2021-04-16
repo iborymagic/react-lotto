@@ -1,5 +1,7 @@
 import React from 'react';
-import ToggleButton from '../../utils/toggle';
+import { LOTTERY_BALL_LENGTH, MAX_LOTTO_NUMBER, MIN_LOTTO_NUMBER } from '../../constants/number';
+import { getRandomNumber } from '../../utils/random-number';
+import ToggleButton from '../util-component/toggle';
 import PurchaseNumberItem from './purchase-number-item';
 
 class PurchaseNumberList extends React.Component {
@@ -15,6 +17,15 @@ class PurchaseNumberList extends React.Component {
     this.setState({
       showBalls: !this.state.showBalls,
     });
+    const lottoReceipt = [...Array(this.props.ticketCount)].map(() => this.getAutoTicket());
+    console.log(lottoReceipt);
+  }
+
+  getAutoTicket() {
+    const lottoTicket = [...Array(LOTTERY_BALL_LENGTH)].map(() =>
+      getRandomNumber(MIN_LOTTO_NUMBER, MAX_LOTTO_NUMBER)
+    );
+    return lottoTicket;
   }
 
   render() {
